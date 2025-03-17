@@ -1,0 +1,6 @@
+@UserAuthApiPg_HostAddress = http://localhost:5033
+
+GET {{UserAuthApiPg_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
