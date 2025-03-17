@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UserAuthApiPg")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b2c8d4f20693a64ecf2310e96c81eded6b5d3bfa")]
 [assembly: System.Reflection.AssemblyProductAttribute("UserAuthApiPg")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UserAuthApiPg")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
