@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UserAuthApiPg.Data;
+using UserAuthApiPg.Models;
 using UserAuthApiPg.Models.Dtos;
 
 namespace UserAuthApiPg.Controllers
@@ -20,7 +21,6 @@ namespace UserAuthApiPg.Controllers
             _context = context;
             _mapper = mapper;
         }
-        
 
         [HttpGet]
         public async Task<ActionResult<List<CycleDto>>> GetCycles()
@@ -34,6 +34,7 @@ namespace UserAuthApiPg.Controllers
 
             return Ok(_mapper.Map<List<CycleDto>>(cycles));
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<CycleDto>> GetCycle(int id)
         {
@@ -50,6 +51,33 @@ namespace UserAuthApiPg.Controllers
             }
 
             return Ok(_mapper.Map<CycleDto>(cycle));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<CycleDto>> AddCycle([FromBody] CycleUpdateDto cycleUpdateDto)
+        {
+            if (cycleUpdateDto == null)
+            {
+                return BadRequest("Invalid cycle data.");
+            }
+
+            var cycle = _mapper.Map<Cycle>(cycleUpdateDto);
+            cycle.DeliveryCharges = 5.00m; // Default value
+            cycle.Color = "Black"; // Default value
+            cycle.Size = "Standard"; // Default value
+            cycle.Inventories = new List<Inventory>(); // Initialize empty inventory collection
+
+            _context.Cycles.Add(cycle);
+            await _context.SaveChangesAsync();
+
+            var addedCycle = await _context.Cycles
+                .Include(c => c.Brand)
+                .Include(c => c.Type)
+                .Include(c => c.Inventories)
+                .FirstOrDefaultAsync(c => c.CycleId == cycle.CycleId);
+            var cycleDto = _mapper.Map<CycleDto>(addedCycle);
+
+            return CreatedAtAction(nameof(GetCycle), new { id = cycle.CycleId }, cycleDto);
         }
 
         [HttpPut("{id}")]
@@ -112,6 +140,26 @@ namespace UserAuthApiPg.Controllers
             var cycleDto = _mapper.Map<CycleDto>(cycle);
 
             return Ok(cycleDto);
+        }
+
+        [HttpPost("inventory")]
+        public async Task<ActionResult<InventoryDto>> AddInventory([FromBody] InventoryDto inventoryDto)
+        {
+            if (inventoryDto == null)
+            {
+                return BadRequest("Invalid inventory data.");
+            }
+
+            var inventory = _mapper.Map<Inventory>(inventoryDto);
+            _context.Inventories.Add(inventory);
+            await _context.SaveChangesAsync();
+
+            var cycle = await _context.Cycles
+                .Include(c => c.Inventories)
+                .FirstOrDefaultAsync(c => c.CycleId == inventory.CycleId);
+            var cycleDto = _mapper.Map<CycleDto>(cycle);
+
+            return CreatedAtAction(nameof(GetInventoriesForCycle), new { cycleId = inventory.CycleId }, cycleDto);
         }
     }
 }

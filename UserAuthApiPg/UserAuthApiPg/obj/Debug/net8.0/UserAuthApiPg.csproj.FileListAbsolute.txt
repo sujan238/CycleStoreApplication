@@ -300,3 +300,4 @@ C:\Users\sujsa\FullStack\UserAuthApiPg\UserAuthApiPg\obj\Debug\net8.0\UserAuthAp
 C:\Users\sujsa\FullStack\UserAuthApiPg\UserAuthApiPg\obj\Debug\net8.0\UserAuthApiPg.genruntimeconfig.cache
 C:\Users\sujsa\FullStack\UserAuthApiPg\UserAuthApiPg\obj\Debug\net8.0\ref\UserAuthApiPg.dll
 C:\Users\sujsa\FullStack\UserAuthApiPg\UserAuthApiPg\obj\Debug\net8.0\UserAuthApiPg.sourcelink.json
+C:\Users\sujsa\FullStack\UserAuthApiPg\UserAuthApiPg\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
